@@ -8,15 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var word = ""
+    
     var body: some View {
         NavigationView{
             List{
-                Text("text entry")
+                TextField("Enter word here", text: $word)
             }
             .navigationTitle(Text("WORD GOES HERE"))
             .navigationBarItems(trailing:
-                Button("BUTTON"){
-                    print("Buttin pressed")
+                Button(action: {
+                    print("Button pressed")
+                }){
+                    Text("BUTTON")
+                        .font(.headline)
+                        .padding(4)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .clipShape(Capsule())
+                        .overlay(Capsule().stroke(Color.black, lineWidth: /*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/))
                 }
             )
         }
