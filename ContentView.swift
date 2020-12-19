@@ -10,13 +10,24 @@ import SwiftUI
 struct ContentView: View {
     
     @State var word = ""
+    @State var enteredWords:[String] = [String]()
+    @State var rootWord = ""
     
     var body: some View {
         NavigationView{
-            List{
-                TextField("Enter word here", text: $word)
+            VStack{
+                
+                TextField("Enter word here", text: $word, onCommit: addNewWord)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocapitalization(.none)
+                    .padding()
+                
+                List(enteredWords, id: \.self){
+                    Image(systemName: "\($0.count).circle")
+                    Text("\($0)")
+                }
             }
-            .navigationTitle(Text("WORD GOES HERE"))
+            .navigationTitle(Text("\(rootWord)"))
             .navigationBarItems(trailing:
                 Button(action: {
                     print("Button pressed")
@@ -31,7 +42,25 @@ struct ContentView: View {
                 }
             )
         }
+    }
+    
+    func addNewWord(){
+        /*
+         Lowercase newWord and remove any whitespace
+         Check that it has at least 1 character otherwise exit
+         Insert that word at position 0 in the usedWords array
+         Set newWord back to be an empty string
+         */
         
+        let thisWord = word.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard thisWord.count > 0 else{
+            word = ""
+            return
+        }
+        
+        enteredWords.insert(word, at: 0)
+        word = ""
     }
 }
 
